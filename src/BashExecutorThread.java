@@ -9,9 +9,9 @@ import java.util.List;
 public class BashExecutorThread implements Runnable{
 
     List<String> input = new ArrayList<>();
-    List<String> log;
+    List<String[]> log;
 
-    public BashExecutorThread(String command, List<String> log) {
+    public BashExecutorThread(String command, List<String[]> log) {
         this.input = Arrays.asList(command.split(" "));
         this.log = log;
     }
@@ -49,14 +49,16 @@ public class BashExecutorThread implements Runnable{
         } catch (java.io.IOException ioe) {
             System.err.println("Error");
             System.err.println(ioe);
-            this.log.add(ioe.getMessage());
+            this.log.add(new String[]{input.toString().replace("[", "").replace("]", ""),
+                    ioe.getMessage()});
         } finally {
             if (bufferReader != null) {
                 try {
                     bufferReader.close();
                 } catch (IOException e) {
                     System.out.println(e);
-                    this.log.add(e.getMessage());
+                    this.log.add(new String[]{input.toString().replace("[", "").replace("]", ""),
+                            e.getMessage()});
                 }
             }
         }

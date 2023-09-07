@@ -6,7 +6,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws java.io.IOException {
         String commandLine;
-        List<String> errors = new ArrayList<>();
+        List<String[]> errors = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n\n***** Welcome to the Java Command Shell *****");
         System.out.println("If you want to exit the shell, type END and press RETURN.\n");
@@ -24,8 +24,14 @@ public class Main {
                 System.exit(0);
             }
             else if (commandLine.equalsIgnoreCase("showerrlog")) {
+                System.out.println("Type showerrlog [nmr] to show the produced error");
                 for (int i = 0; i < errors.size(); i++) {
-                    System.out.println((i + 1) + ": " + errors.get(i));
+                    System.out.println((i + 1) + ": " + errors.get(i)[0]);
+                }
+            }
+            else if (commandLine.toLowerCase().contains("showerrlog")) {
+                if (!commandLine.replace("showerrlog ", "").matches("\\d+")){
+                    System.out.println("");
                 }
             }
             else {
