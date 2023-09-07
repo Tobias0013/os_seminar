@@ -18,6 +18,7 @@ public class Main {
 
         stopwatch.start();
         System.out.println("Main thread. Waiting for stopwatch thread...");
+        stopwatch.join();
         System.out.println("Main thread. Finished stopwatch thread.");
     }
 }

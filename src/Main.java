@@ -6,7 +6,7 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) throws java.io.IOException {
         String commandLine;
-        ErrorLog log = new ErrorLog();
+        List<String> errors = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         System.out.println("\n\n***** Welcome to the Java Command Shell *****");
         System.out.println("If you want to exit the shell, type END and press RETURN.\n");
@@ -24,12 +24,12 @@ public class Main {
                 System.exit(0);
             }
             else if (commandLine.equalsIgnoreCase("showerrlog")) {
-                for (int i = 0; i < log.errorSize(); i++) {
-                    System.out.println((i + 1) + ": " + log.getError(i));
+                for (int i = 0; i < errors.size(); i++) {
+                    System.out.println((i + 1) + ": " + errors.get(i));
                 }
             }
             else {
-                BashExecutorThread bet = new BashExecutorThread(commandLine, log);
+                BashExecutorThread bet = new BashExecutorThread(commandLine, errors);
                 Thread thread = new Thread(bet);
                 thread.start();
             }
