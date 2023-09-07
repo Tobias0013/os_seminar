@@ -8,11 +8,11 @@ import java.util.List;
 
 public class BashExecutorThread implements Runnable{
 
-    List<String> input = new ArrayList<>();
+    List<String> input;
     List<String[]> log;
 
-    public BashExecutorThread(String command, List<String[]> log) {
-        this.input = Arrays.asList(command.split(" "));
+    public BashExecutorThread(List<String> command, List<String[]> log) {
+        this.input = command;
         this.log = log;
     }
 
