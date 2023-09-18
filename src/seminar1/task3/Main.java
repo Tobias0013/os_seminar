@@ -1,4 +1,4 @@
-package task3;
+package seminar1.task3;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -17,8 +17,8 @@ public class Main {
         });
 
         stopwatch.start();
-        System.out.println("Main thread. Waiting for stopwatch thread...");
+        System.out.println("seminar1.Main thread. Waiting for stopwatch thread...");
         stopwatch.join();
-        System.out.println("Main thread. Finished stopwatch thread.");
+        System.out.println("seminar1.Main thread. Finished stopwatch thread.");
     }
 }

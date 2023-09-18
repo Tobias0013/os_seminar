@@ -1,7 +1,8 @@
-import java.io.*;
+package seminar1;
+
 import java.util.*;
 
-//command to compile, javac Main.java BashExecutorThread.java
+//command to compile, javac seminar1.Main.java seminar1.BashExecutorThread.java
 
 public class Main {
     public static void main(String[] args) throws java.io.IOException {
