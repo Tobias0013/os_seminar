@@ -26,6 +26,7 @@ This is a summary of task 1.
 2. Try to formulate why we have this problem?
 3. How can you identify the starvation problem?
 
+---
 
 ## Task 2
 This is a summary of task 2. 
@@ -42,6 +43,8 @@ Does not build on any other tasks or parts.
 ### requirements:
 - [ ] Use the built-in java library (ReentrantReadWriteLock) to solve reader-writer problem
 - [ ] Set fairness to true
+
+---
 
 ## Task 3
 This is a summary of task3

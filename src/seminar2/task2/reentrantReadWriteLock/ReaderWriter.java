@@ -1,4 +1,4 @@
-package seminar2.task2.reentrant;
+package seminar2.task2.reentrantReadWriteLock;
 
 public class ReaderWriter {
 

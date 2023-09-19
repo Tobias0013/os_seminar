@@ -1,30 +1,28 @@
-package seminar2.task2.reentrant;
+package seminar2.task2.reentrantReadWriteLock;
 
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class RWLock {
-    //mayby use this: ==???==
-    //private final ReentrantReadWriteLock lock2 = new ReentrantReadWriteLock(true);
-    private final ReentrantLock lock = new ReentrantLock(true);
+
+    private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock(true);
 
     public RWLock(){
     }
 
     public void acquireRead(){
-        lock.lock();
+        lock.readLock().lock();
     }
 
     public void acquireWrite(){
-        lock.lock();
+        lock.writeLock().lock();
     }
 
     public void releaseRead(){
-        lock.unlock();
+        lock.readLock().unlock();
     }
 
     public void releaseWrite(){
-        lock.unlock();
+        lock.writeLock().unlock();
     }
-
 }

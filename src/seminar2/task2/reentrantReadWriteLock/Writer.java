@@ -1,4 +1,4 @@
-package seminar2.task2.reentrant;
+package seminar2.task2.reentrantReadWriteLock;
 
 
 import java.util.logging.Level;
@@ -9,7 +9,7 @@ public class Writer implements Runnable{
     private int myId;
     private Data myData;
 
-    public Writer(int id,Data data){
+    public Writer(int id, Data data){
         myId = id;
         myData = data;
     }
