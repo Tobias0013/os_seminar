@@ -1,4 +1,4 @@
-package seminar2.task1.org;
+package seminar2.task1.orig;
 
 public class ReaderWriter {
 

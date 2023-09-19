@@ -1,4 +1,4 @@
-package seminar2.task3.org;
+package seminar2.task3.orig;
 
 public class Table {
 

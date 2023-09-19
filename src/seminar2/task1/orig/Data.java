@@ -1,4 +1,4 @@
-package seminar2.task1.org;
+package seminar2.task1.orig;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
