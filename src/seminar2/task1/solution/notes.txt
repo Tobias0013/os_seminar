@@ -1,0 +1,23 @@
+(personal notes)
+solved using synchronized and wait/notify in RWLlock class.
+
+keeps track of how many readers are reading
+keep track of if there is a writer writing (mutual exclusion)
+
+if reader wants to read
+    check if writer write
+then
+    read
+
+if writer want to write (mutual exclusion)
+    check if there are any readers that are reading
+    check if other writer writes
+then
+    write
+
+Problem:
+writer starving - writer only write in the end because reader gets priority
+why reader priority:
+* Readers are allowed to read concurrently unless there is an active writer.
+* Writers are given exclusive access to the resource, and they wait if there are active readers or another writer.
+

@@ -1,0 +1,13 @@
+(personal notes)
+solved using synchronized and wait/notify in Data class.
+
+Added synchronized to read and write func in Data class
+This ensures that only one process can access the Data class at a time.
+
+does not keep track of how many readers reading
+does not keep track if writer is writing
+
+Problems:
+does not appear that i have the same problems as in sol1
+no apparent starvation of writers
+(but I suspect it can happen because nothing prevents it from happening)

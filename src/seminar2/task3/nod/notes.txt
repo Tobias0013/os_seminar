@@ -1,0 +1,25 @@
+(personal notes)
+
+added so philosofer wait if cannot pick up both right and left stick
+
+philosofers can still hold total 5 sticks but only 2 can eat at a time
+
+
+
+
+Mutual Exclusion (or Exclusive Control):
+At least one resource must be non-shareable, meaning that only one process or thread can access it at a time.
+This condition ensures that once a process acquires a resource, it has exclusive control over that resource.
+
+Hold and Wait: (id did)
+Processes must hold at least one resource and must be waiting to acquire additional resources that are currently
+held by other processes. In other words, a process that is already holding some resources can request additional
+resources while still holding its existing ones.
+
+No Preemption:
+Resources cannot be forcibly taken away from a process. Resources can only be released voluntarily by the process that holds them.
+ This condition ensures that a process cannot be interrupted and have its resources taken away, which could lead to inconsistency.
+
+Circular Wait:
+There must exist a circular chain of two or more processes, where each process is waiting for a resource held by the next process in the chain.
+This circular chain creates a cycle of dependencies that prevents any process in the cycle from proceeding.

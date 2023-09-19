@@ -1,0 +1,4 @@
+compile:
+javac packageName1\packageName2\*.java
+run:
+java packageName1.packageName2.mainfileName

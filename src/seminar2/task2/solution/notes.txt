@@ -1,0 +1,14 @@
+(personal notes)
+solved by adding writer_que in RWLock
+writer_que:
+increment when writer is waiting
+decrement when writer is finished
+
+by making a reader wait if there is a reader in que then the reader gets priority
+
+
+Problem:
+(apparently) reader starving (I only noticed that it happen rarely. But I can se that it might happen)
+why writer priority:
+* All reader are supposed to wait if there are any writer in que.
+
