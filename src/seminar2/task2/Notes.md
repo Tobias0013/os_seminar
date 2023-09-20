@@ -15,8 +15,8 @@ Builds on the requirements of task 1.
 ### Part 2)
 Does not build on any other tasks or parts.
 ### requirements:
-- [ ] Use the built-in java library (ReentrantReadWriteLock) to solve reader-writer problem
-- [ ] Set fairness to true
+- [X] Use the built-in java library (ReentrantReadWriteLock) to solve reader-writer problem
+- [X] Set fairness to true
 
 ---
 ### Notes from solution (part 1)
@@ -36,4 +36,6 @@ All reader are supposed to wait if there are any writer in que.
 ---
 ### Notes for part 2
 
-I have a reentrantReadWriteLock that uses reentrantReadWriteLock to make fairness. (This is what the task wants.)
+I have a reentrantReadWriteLock that uses reentrantReadWriteLock to make fairness.
+
+You can do it with normal reentrantLock.

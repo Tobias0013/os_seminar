@@ -1,4 +1,4 @@
-package seminar2.task3.nod;
+package seminar2.task3.deadlockSolution;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -7,7 +7,7 @@ public class Philosopher implements Runnable{
     private int myId;
     private Table myTable;
 
-    public Philosopher(int id, Table table){
+    public Philosopher(int id,Table table){
         myId = id;
         myTable = table;
     }
@@ -18,27 +18,27 @@ public class Philosopher implements Runnable{
             try {
               
                 System.out.println("Philosopher " + myId + " thinks. Iteration "+ i);
-                //Thread.sleep((int)(Math.random()*100));
-                Thread.sleep((int)(Math.random()*0));
+                Thread.sleep((int)(Math.random()*100));
+                //Thread.sleep((int)(Math.random()*10));
 
                 myTable.getLeftChopstick(myId);
                 System.out.println("Philosopher " + myId + " pick up left");
-                Thread.sleep((int)(Math.random()*0));
+                Thread.sleep((int)(Math.random()*10));
             
                 myTable.getRightChopstick(myId);
                 System.out.println("Philosopher " + myId + " pick up right");
               
                 System.out.println("Philosopher " + myId + " eats. Iteration "+ i);
-                //Thread.sleep((int)(Math.random()*100));
-                Thread.sleep((int)(Math.random()*0));
+                Thread.sleep((int)(Math.random()*100));
+                //Thread.sleep((int)(Math.random()*10));
 
                 myTable.releaseLeftChopstick(myId);
                 System.out.println("Philosopher " + myId + " drop left");
-                Thread.sleep((int)(Math.random()*0));
+                Thread.sleep((int)(Math.random()*10));
                             
                 myTable.releaseRightChopstick(myId);
                 System.out.println("Philosopher " + myId + " drop right");
-                Thread.sleep((int)(Math.random()*0));
+                Thread.sleep((int)(Math.random()*10));
                 
             } catch (InterruptedException ex) {
                 Logger.getLogger(Philosopher.class.getName()).log(Level.SEVERE, null, ex);

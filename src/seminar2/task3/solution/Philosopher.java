@@ -7,7 +7,7 @@ public class Philosopher implements Runnable{
     private int myId;
     private Table myTable;
 
-    public Philosopher(int id,Table table){
+    public Philosopher(int id, Table table){
         myId = id;
         myTable = table;
     }
@@ -18,8 +18,8 @@ public class Philosopher implements Runnable{
             try {
               
                 System.out.println("Philosopher " + myId + " thinks. Iteration "+ i);
-                //Thread.sleep((int)(Math.random()*100));
-                Thread.sleep((int)(Math.random()*10));
+                Thread.sleep((int)(Math.random()*100));
+                //Thread.sleep((int)(Math.random()*10));
 
                 myTable.getLeftChopstick(myId);
                 System.out.println("Philosopher " + myId + " pick up left");
@@ -29,8 +29,8 @@ public class Philosopher implements Runnable{
                 System.out.println("Philosopher " + myId + " pick up right");
               
                 System.out.println("Philosopher " + myId + " eats. Iteration "+ i);
-                //Thread.sleep((int)(Math.random()*100));
-                Thread.sleep((int)(Math.random()*10));
+                Thread.sleep((int)(Math.random()*100));
+                //Thread.sleep((int)(Math.random()*10));
 
                 myTable.releaseLeftChopstick(myId);
                 System.out.println("Philosopher " + myId + " drop left");

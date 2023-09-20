@@ -1,4 +1,4 @@
-package seminar2.task3.nod;
+package seminar2.task3.deadlockSolution;
 
 public class DiningPhilosophers {
 
