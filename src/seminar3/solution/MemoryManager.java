@@ -145,7 +145,13 @@ public class MemoryManager {
 		// Note depending on your solution, you might need to change parts of the
 		// supplied code, this is allowed.
 
-		pageReplacement(pageNumber);
+		if (!isRAMFull()){
+			handlePageFault(pageNumber);
+			myPageQueue.add(pageNumber);
+			return;
+		}
+
+		replacePage(pageNumber);
 	}
 
 	private void handlePageFaultLRU(int pageNumber) {
@@ -155,7 +161,13 @@ public class MemoryManager {
 		// Note depending on your solution, you might need to change parts of the
 		// supplied code, this is allowed.
 
-		pageReplacement(pageNumber);
+		if (!isRAMFull()){
+			handlePageFault(pageNumber);
+			myPageQueue.add(pageNumber);
+			return;
+		}
+
+		replacePage(pageNumber);
 	}
 
 	//------------------below methods added by me------------------
@@ -180,28 +192,22 @@ public class MemoryManager {
 		return Integer.parseInt(bin,2);
 	}
 
-	private void pageReplacement(int pageNumber){
-		int framesLoadedCount = 0; // want to do better
+	private boolean isRAMFull(){
+		int framesLoadedCount = 0;
 
-		// Test if works in other handlePageFault [could be a local class variable]
-		// Checks if myPageTable[] has loaded in (int)myNumberOfFrames pages into memory
 		for (int page : myPageTable) {
 			if (page != -1) {
 				framesLoadedCount++;
 			}
 		}
+		return framesLoadedCount == myNumberOfFrames;
+	}
 
-		if (framesLoadedCount != myNumberOfFrames) { // kanske moste vara (myNumberOfFrames - 1)
-			myPageTable[pageNumber] = myNextFreeFramePosition; // This is setting myPageTable[pageNumber] to the empty frame
-			myPageQueue.add(pageNumber);
-			myNextFreeFramePosition++;
-			return;
-		}
-
-		// gets the first set page
+	private void replacePage(int pageNumber){
+		// gets next page in queue
 		int currentFirstSetPage = myPageQueue.poll();
 
-		// sets myNextFreeFramePosition to the first set page(that is about to be removed)
+		// sets myNextFreeFramePosition to the page that will get replaced
 		myNextFreeFramePosition = myPageTable[currentFirstSetPage];
 
 		// marks that the current first set page is not in physical memory

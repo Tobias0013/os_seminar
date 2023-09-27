@@ -1,9 +1,13 @@
 package seminar3.solution;
 
+import java.io.File;
+import java.io.IOException;
+
 public class Seminar3 {
 
 	//private static final String BACKING_STORE_FILE = "seminar3/resources/BACKING_STORE.bin";
-	private static final String BACKING_STORE_FILE = "src/seminar3/resources/BACKING_STORE.bin";
+	private static String BACKING_STORE_FILE = "";
+	private static String ADDRESSES_FILE = "";
 
 	private static final int PAGE_SIZE = 256;
 	private static final int NUMBER_OF_PAGES = 256;
@@ -18,9 +22,19 @@ public class Seminar3 {
 	public static final int LRU_PAGE_REPLACEMENT = 2;
 	
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		// When running the code for the first time, you will get index out of bounds
 		// This is due to that getPageNumber(), getPageOffset() and handlePageFault() is not implemented in MemoryManager.class
+
+		// added by me, to make path work both in IDE and in console
+		String path = new File(".").getCanonicalPath();
+
+		if (!path.contains("src")){
+			path += "\\src";
+		}
+		BACKING_STORE_FILE = path + "\\seminar3\\resources\\BACKING_STORE.bin";
+		ADDRESSES_FILE = path + "\\seminar3\\resources\\addresses.txt";
+
 		testTaskOne();
 		testTaskTwo();
 		testTaskThree();
@@ -32,8 +46,7 @@ public class Seminar3 {
 		System.out.println("Testing task one\n");
 		MemoryManager memoryManager = new MemoryManager(NUMBER_OF_PAGES, PAGE_SIZE, NUMBER_OF_FRAMES_256,
 				BACKING_STORE_FILE, NO_PAGE_REPLACEMENT);
-		//MemoryProcess mp = new MemoryProcess("seminar3/resources/addresses.txt", memoryManager);
-		MemoryProcess mp = new MemoryProcess("src/seminar3/resources/addresses.txt", memoryManager);
+		MemoryProcess mp = new MemoryProcess(ADDRESSES_FILE, memoryManager);
 		mp.callMemory();
 
 		int numberOfPageFaults =  memoryManager.getNumberOfPageFaults();
@@ -108,8 +121,7 @@ public class Seminar3 {
 	private static int getNumberOfPageFaultsFifo(int numberOfFrames)
 	{
 		MemoryManager memoryManager = new MemoryManager(NUMBER_OF_PAGES, PAGE_SIZE, numberOfFrames, BACKING_STORE_FILE, FIFO_PAGE_REPLACEMENT);
-		//MemoryProcess mp = new MemoryProcess("seminar3/resources/addresses.txt", memoryManager);
-		MemoryProcess mp = new MemoryProcess("src/seminar3/resources/addresses.txt", memoryManager);
+		MemoryProcess mp = new MemoryProcess(ADDRESSES_FILE, memoryManager);
 		mp.callMemory();
 		
 		return memoryManager.getNumberOfPageFaults();
@@ -119,8 +131,7 @@ public class Seminar3 {
 	private static int getNumberOfPageFaultsLRU(int numberOfFrames)
 	{
 		MemoryManager memoryManager = new MemoryManager(NUMBER_OF_PAGES, PAGE_SIZE, numberOfFrames, BACKING_STORE_FILE, LRU_PAGE_REPLACEMENT);
-		//MemoryProcess mp = new MemoryProcess("seminar3/resources/addresses.txt", memoryManager);
-		MemoryProcess mp = new MemoryProcess("src/seminar3/resources/addresses.txt", memoryManager);
+		MemoryProcess mp = new MemoryProcess(ADDRESSES_FILE, memoryManager);
 		mp.callMemory();
 		
 		return memoryManager.getNumberOfPageFaults();

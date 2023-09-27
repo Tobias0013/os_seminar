@@ -137,59 +137,63 @@ allowed.
 ---
 
 ## Task 2 Comments/Thoughts
-I solved this task by adding a new Queue as a class variable. 
-```
-private Queue<Integer> myPageQueue;
-```
-Then I created a method called pacge 
-```
-private void handlePageFaultFIFO(int pageNumber) {
-    // Implement by student in task two
-    // this solution allows different size of physical and logical memory
-    // page replacement using FIFO
-    // Note depending on your solution, you might need to change parts of the
-    // supplied code, this is allowed.
+I solved this task by adding a new Queue as a class variable.  
+A page is added when loaded into primary memory, when memory is full, 
+and we need to swap a page the first one in the queue is the first one in there for the first one out. 
 
-    pageReplacement(pageNumber);
-}
-```
-```
-private void pageReplacement(int pageNumber){
-    int framesLoadedCount = 0; // want to do better
+    private Queue<Integer> myPageQueue;
 
-    // Test if works in other handlePageFault [could be a local class variable]
-    // Checks if myPageTable[] has loaded in (int)myNumberOfFrames pages into memory
-    for (int page : myPageTable) {
-        if (page != -1) {
-            framesLoadedCount++;
-        }
-    }
+Then I created two new methods isRAMFull() and replacePage().  
+isRAMFull() is pretty self-explanatory.
 
-    if (framesLoadedCount != myNumberOfFrames) { // kanske moste vara (myNumberOfFrames - 1)
-        myPageTable[pageNumber] = myNextFreeFramePosition; // This is setting myPageTable[pageNumber] to the empty frame
-        myPageQueue.add(pageNumber);
-        myNextFreeFramePosition++;
-        return;
-    }
-     
-    // gets the first set page
-    int currentFirstSetPage = myPageQueue.poll();
+	private boolean isRAMFull(){
+		int framesLoadedCount = 0;
 
-    // sets myNextFreeFramePosition to the first set page(that is about to be removed)
-    myNextFreeFramePosition = myPageTable[currentFirstSetPage];
+		for (int page : myPageTable) {
+			if (page != -1) {
+				framesLoadedCount++;
+			}
+		}
+		return framesLoadedCount == myNumberOfFrames;
+	}
 
-    // marks that the current first set page is not in physical memory
-    myPageTable[currentFirstSetPage] = -1;
+replacePage() replaces the next page in queue with the new one.
 
-    // marks that the current page shall overwrite the old frame in physical memory
-    myPageTable[pageNumber] = myNextFreeFramePosition;
+	private void replacePage(int pageNumber){
+		// gets next page in queue
+		int currentFirstSetPage = myPageQueue.poll();
 
-    // adds new page number to the back of the queue
-    myPageQueue.add(pageNumber);
-}
-```
+		// sets myNextFreeFramePosition to the page that will get replaced
+		myNextFreeFramePosition = myPageTable[currentFirstSetPage];
 
----
+		// marks that the current first set page is not in physical memory
+		myPageTable[currentFirstSetPage] = -1;
+
+		// marks that the current page shall overwrite the old frame in physical memory
+		myPageTable[pageNumber] = myNextFreeFramePosition;
+
+		// adds new page number to the back of the queue
+		myPageQueue.add(pageNumber);
+	}
+
+This is my code in the handlePageFaultFIFO() it is pretty self-explanatory.
+
+	private void handlePageFaultFIFO(int pageNumber) {
+		// Implement by student in task two
+		// this solution allows different size of physical and logical memory
+		// page replacement using FIFO
+		// Note depending on your solution, you might need to change parts of the
+		// supplied code, this is allowed.
+
+		if (!isRAMFull()){
+			handlePageFault(pageNumber);
+			myPageQueue.add(pageNumber);
+			return;
+		}
+
+		replacePage(pageNumber);
+	}
+
 
 ## Task 3
 This is a summary of task 3.
@@ -217,8 +221,39 @@ allowed.
 ---
 
 ## Task 3 Comments/Thoughts
+I solved this task by using the same Queue as in task2.  
+A page is added when loaded into primary memory, when memory is full,
+and we need to swap a page the first one in the queue is the first one in there for the first one out.  
 
+    private Queue<Integer> myPageQueue;
 
+But to implement LRU I also added this to readFromMemory() method.  
+This makes it so that every time the page is used it gets added to the back of the queue,
+it becomes the most recently used aka the furthest from getting swapped.
+
+    if (myPageReplacementAlgorithm == Seminar3.LRU_PAGE_REPLACEMENT){
+    // change pos of the most recently used page in queue
+    myPageQueue.remove(pageNumber);
+    myPageQueue.add(pageNumber);
+    }
+
+This is my code in the handlePageFaultLRU() it is pretty self-explanatory.
+
+	private void handlePageFaultLRU(int pageNumber) {
+		// Implement by student in task three
+		// this solution allows different size of physical and logical memory
+		// page replacement using LRU
+		// Note depending on your solution, you might need to change parts of the
+		// supplied code, this is allowed.
+
+		if (!isRAMFull()){
+			handlePageFault(pageNumber);
+			myPageQueue.add(pageNumber);
+			return;
+		}
+
+		replacePage(pageNumber);
+	}
 
 ---
 
@@ -226,8 +261,6 @@ allowed.
 This is extra stuff I want to do after completed the basic requirements.
 
 ### Will do:
-- [ ] Move comments to Notes.md
-- [ ] Fix pathing issue. So I can run from both console and IDE
 
 ### Will maybe do
 - [ ] Refactor task1 to byte shifting
