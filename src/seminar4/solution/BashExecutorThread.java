@@ -47,8 +47,8 @@ public class BashExecutorThread implements Runnable{
             bufferReader.close();
 
         } catch (IOException ioe) {
-            System.err.println("Error");
-            System.err.println(ioe);
+            System.out.println("Error");
+            System.out.println(ioe);
             this.log.add(new String[]{input.toString().replace("[", "").replace("]", ""),
                     ioe.getMessage()});
         } finally {
