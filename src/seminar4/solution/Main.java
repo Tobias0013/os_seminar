@@ -1,6 +1,5 @@
 package seminar4.solution;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
@@ -8,16 +7,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-//command to compile, javac seminar1.Main.java seminar1.BashExecutorThread.java
 
 public class Main {
-    private static List<String> input;
-    private static List<String[]> errors;
-    private static Scanner scanner;
+    public static Scanner scanner;
 
     public static void main(String[] args) {
-        input = new ArrayList<>();
-        errors = new ArrayList<>();
+        List<String> input;
+        List<String[]> errors = new ArrayList<>();
         String commandLine;
         scanner = new Scanner(System.in);
         System.out.println("\n\n***** Welcome to the Java Command Shell *****");
@@ -27,69 +23,60 @@ public class Main {
             System.out.print("jsh>");
             commandLine = scanner.nextLine();
             // if user entered a return, just loop again
-            if (commandLine.equals("")) {
+            if (commandLine.isBlank()) {
                 continue;
             }
 
             input = Arrays.asList(commandLine.split(" "));
 
-            if (input.get(0).equalsIgnoreCase("end")) { //User wants to end shell
-                System.out.println("\n***** Command Shell Terminated. See you next time. BYE for now. *****\n");
-                scanner.close();
-                System.exit(0);
+            switch (input.get(0).toLowerCase()){
+                case "end":
+                    System.out.println("\n***** Command Shell Terminated. See you next time. BYE for now. *****\n");
+                    scanner.close();
+                    System.exit(0);
+                    break;
+                case "showerrlog":
+                    showerrlog(input, errors);
+                    break;
+                case "filedump":
+                    filedump(input);
+                    break;
+                case "copyfile":
+                    copyfile(input);
+                    break;
+                case "createfile":
+                    createFile(input);
+                    break;
+                case "renamefile":
+                    renameFile(input);
+                    break;
+                case "delfile":
+                    delFile(input);
+                    break;
+                case "movefile":
+                    moveFile(input);
+                    break;
+                case "createdir":
+                    createDir(input);
+                    break;
+                case "renamedir":
+                    renameDir(input);
+                    break;
+                case "deldir":
+                    delDir(input);
+                    break;
+                default:
+                    BashExecutorThread bet = new BashExecutorThread(input, errors);
+                    Thread thread = new Thread(bet);
+                    thread.start();
             }
-            else if (input.get(0).equalsIgnoreCase("showerrlog")) {
-                showerrlog();
-            }
-            else if (input.get(0).equalsIgnoreCase("filedump")){
-                filedump();
-            }
-            else if (input.get(0).equalsIgnoreCase("copyfile")){
-                copyfile();
-            }
-            else if (input.get(0).equalsIgnoreCase("createfile")){
-                createFile();
-            }
-            else if (input.get(0).equalsIgnoreCase("renamefile")){
-                renameFile();
-            }
-            else if (input.get(0).equalsIgnoreCase("delfile")){
-                delFile();
-            }
-            else if (input.get(0).equalsIgnoreCase("movefile")){
-                moveFile();
-            }
-            else if (input.get(0).equalsIgnoreCase("createdir")){
-                createDir();
-            }
-            else if (input.get(0).equalsIgnoreCase("renamedir")){
-                renameDir();
-            }
-            else if (input.get(0).equalsIgnoreCase("deldir")){
-                delDir();
-            }
-            else if (input.get(0).equalsIgnoreCase("test")){ // TODO: 2023-10-03 ta bort
-                Path path = Paths.get("C:\\Users\\tv-dr\\IdeaProjects\\os_seminar\\src\\seminar4\\test");
-                try {
-                    deleteDirectory(path);
-                } catch (IOException e) {
-                    System.out.println("error renaming the file: " + e.getMessage());
-                }
-                return;
-            }
-            else{
-                BashExecutorThread bet = new BashExecutorThread(input, errors);
-                Thread thread = new Thread(bet);
-                thread.start();
-            }
-
         }
     }
 
     /**
      *   Write at least 10 lines describing the new command and how it works.
      */
-    public static void delDir() {
+    public static void delDir(List<String> input) {
         if (input.size() != 2){
             System.out.println("renameDir syntax error. syntax: renameDir [filename]");
             return;
@@ -109,8 +96,8 @@ public class Main {
     }
 
     /**
-     * @param directory
-     * @throws IOException
+     * //@param directory
+     * //@throws IOException
      */
     public static void deleteDirectory(Path directory) throws IOException {
         if (Files.exists(directory)) {
@@ -134,7 +121,7 @@ public class Main {
     /**
      *   Write at least 10 lines describing the new command and how it works.
      */
-    public static void renameDir() {
+    public static void renameDir(List<String> input) {
         if (input.size() != 3){
             System.out.println("renameDir syntax error. syntax: renameDir [filename] [new name]");
             return;
@@ -147,7 +134,7 @@ public class Main {
         }
 
         try {
-            Files.move(path, path.resolveSibling("test2"), StandardCopyOption.REPLACE_EXISTING);
+            Files.move(path, path.resolveSibling(input.get(2)), StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             System.out.println("error renaming the file: " + e.getMessage());
         }
@@ -156,14 +143,14 @@ public class Main {
     /**
      *   Write at least 10 lines describing the new command and how it works.
      */
-    public static void createDir() {
+    public static void createDir(List<String> input) {
         if (input.size() != 2){
             System.out.println("createDir syntax error. syntax: createDir [filename]");
             return;
         }
         Path path = Paths.get(input.get(1));
 
-        if (Files.isRegularFile(path) || !Files.isDirectory(path)){
+        if (Files.isRegularFile(path) || Files.isDirectory(path)){
             System.out.println("createDir error. invalid path");
             return;
         }
@@ -178,9 +165,9 @@ public class Main {
     /**
      *   Write at least 10 lines describing the new command and how it works.
      */
-    public static void moveFile() {
+    public static void moveFile(List<String> input) {
         if (input.size() != 3){
-            System.out.println("renameFile syntax error. syntax: renameFile [filename] [new path]");
+            System.out.println("renameFile syntax error. syntax: renameFile [filePath] [new filePath]");
             return;
         }
         Path path = Paths.get(input.get(1));
@@ -190,7 +177,7 @@ public class Main {
             System.out.println("renameFile error. invalid path");
             return;
         }
-        else if (Files.exists(path)) {
+        else if (Files.exists(newPath) || Files.isDirectory(newPath)) {
             System.out.println("renameFile error. invalid path");
             return;
         }
@@ -205,7 +192,7 @@ public class Main {
     /**
      *   Write at least 10 lines describing the new command and how it works.
      */
-    public static void delFile() {
+    public static void delFile(List<String> input) {
         if (input.size() != 2){
             System.out.println("delFile syntax error. syntax: delFile [filename]");
             return;
@@ -227,7 +214,7 @@ public class Main {
     /**
      *   Write at least 10 lines describing the new command and how it works.
      */
-    public static void renameFile() {
+    public static void renameFile(List<String> input) {
         if (input.size() != 3){
             System.out.println("renameFile syntax error. syntax: renameFile [filename] [new name]");
             return;
@@ -248,8 +235,17 @@ public class Main {
 
     /**
      *   Write at least 10 lines describing the new command and how it works.
+     * <p>
+     * Creates a new file at the specified path.
+     * <p>
+     * This method expects a specific syntax for the 'input' list where the second element in
+     * the list represents the desired filename to create. The method checks if
+     * the 'input' list has exactly two elements and if the specified file does not already
+     * exist or is not a directory. If these conditions are met it creates the file at
+     * the specified path.
+     *
      */
-    public static void createFile() {
+    public static void createFile(List<String> input) {
         if (input.size() != 2){
             System.out.println("createFile syntax error. syntax: createFile [filename]");
             return;
@@ -271,14 +267,13 @@ public class Main {
     /**
      *   Write at least 10 lines describing the new command and how it works.
      */
-    public static void copyfile() {
+    public static void copyfile(List<String> input) {
         if (input.size() != 3){
             System.out.println("copyfile syntax error. syntax: copyfile [sourceFile] [destinationFile]");
             return;
         }
         Path sourcePath = Paths.get(input.get(1));
         Path destinationPath = Paths.get(input.get(2));
-        System.out.println(input);
 
         if (!Files.exists(sourcePath) || Files.isDirectory(sourcePath)){
             System.out.printf("copyfile error. file not found \"%s\"%n", sourcePath);
@@ -308,7 +303,7 @@ public class Main {
     /**
      *   Write at least 10 lines describing the new command and how it works.
      */
-    public static void filedump() {
+    public static void filedump(List<String> input) {
         if (input.size() != 2){
             System.out.println("filedump syntax error. syntax: filedump [filename]");
             return;
@@ -333,7 +328,7 @@ public class Main {
     /**
      *   Write at least 10 lines describing the new command and how it works.
      */
-    public static void showerrlog(){
+    public static void showerrlog(List<String> input, List<String[]> errors){
         if (input.size() == 1){
             System.out.println("Type showerrlog [number] to show the error code");
             for (int i = 0; i < errors.size(); i++) {
@@ -354,4 +349,5 @@ public class Main {
             System.out.printf("Error message: %s%n", errors.get(Integer.parseInt(input.get(1)))[1]);
         }
     }
+
 }

@@ -16,18 +16,6 @@ public class BashExecutorThread implements Runnable{
         this.log = log;
     }
 
-    public BashExecutorThread(List<String> input) {
-        this.input = input;
-    }
-
-    public List<String> getInput() {
-        return input;
-    }
-
-    public void setInput(List<String> input) {
-        this.input = input;
-    }
-
     @Override
     public void run() {
         ProcessBuilder processBuilder = new ProcessBuilder(input);
@@ -48,7 +36,7 @@ public class BashExecutorThread implements Runnable{
 
         } catch (IOException ioe) {
             System.out.println("Error");
-            System.out.println(ioe);
+            System.out.println(ioe.getMessage());
             this.log.add(new String[]{input.toString().replace("[", "").replace("]", ""),
                     ioe.getMessage()});
         } finally {
@@ -56,7 +44,7 @@ public class BashExecutorThread implements Runnable{
                 try {
                     bufferReader.close();
                 } catch (IOException e) {
-                    System.out.println(e);
+                    System.out.println(e.getMessage());
                     this.log.add(new String[]{input.toString().replace("[", "").replace("]", ""),
                             e.getMessage()});
                 }
