@@ -270,7 +270,7 @@ public class Main {
 
     /**
      * Renames a file at the specified path with a new name.
-     *
+     * <p>
      * This method expects a specific syntax for its input, where the second element in
      * the 'input' list represents the current file path, and the third element represents
      * the new name for the file. It verifies the path, checks if it represents a valid
