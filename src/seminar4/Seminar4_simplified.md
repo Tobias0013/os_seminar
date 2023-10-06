@@ -33,6 +33,6 @@ This is a summary of task 3.
 - [X] The new command shall be called with at least one argument,  
 - [X] You don’t have to support a complete path for the file
 - [X] Implement basic error handling, for example if the file does not exist
-- [ ] Write at least 10 lines describing the new command and how it works.
+- [X] Write at least 10 lines describing the new command and how it works.
 
 ---
